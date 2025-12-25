@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Holiday EXE Demo
 
-## Getting Started
+Interactive showcase of the **North Pole Connection** iOS app - a scroll-driven portfolio piece demonstrating the 9-phase experience.
 
-First, run the development server:
+## Overview
+
+This site presents the North Pole Connection app through an immersive, scroll-driven experience. Visitors can explore each phase of the app within an iPhone mockup, with a mix of live interactive components and captured video footage.
+
+## Features
+
+- **Scroll-Driven Navigation** - Apple-style chapter transitions
+- **iPhone 17 Pro Mockup** - Authentic device frame presentation
+- **Live Interactions** - Fingerprint scanner, keypad, and more
+- **Video Showcases** - High-quality screen recordings from iOS Simulator
+- **Matrix Aesthetic** - Consistent visual language with the app
+
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **TypeScript** (strict mode)
+- **Tailwind CSS 4**
+- **Framer Motion** (scroll animations)
+
+## Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Run type checking
+npm run type-check
+
+# Run linting
+npm run lint
+
+# Format code
+npm run format
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+app/           # Next.js App Router
+components/    # React components
+  ui/          # Generic UI components
+  showcase/    # Showcase-specific components
+  effects/     # Visual effects (MatrixRain, etc.)
+lib/           # Utilities, constants
+public/        # Static assets
+  assets/      # iPhone mockup, backgrounds
+  videos/      # Phase walkthrough videos
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Private - Portfolio project
