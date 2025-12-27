@@ -57,3 +57,84 @@ html {
   background: var(--matrix-green-glow);
   color: var(--matrix-green);
 }
+
+/* Glitch animation for Hero title - triggers briefly every ~6 seconds */
+@keyframes glitch {
+  0%,
+  100% {
+    text-shadow:
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+      0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    transform: translate(0);
+  }
+  2% {
+    text-shadow:
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+      0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    transform: translate(-2px, 1px);
+  }
+  4% {
+    text-shadow:
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+      0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    transform: translate(2px, -1px);
+  }
+  6% {
+    text-shadow:
+      -0.05em -0.025em 0 rgba(255, 0, 0, 0.75),
+      0.025em 0.025em 0 rgba(0, 255, 0, 0.75),
+      -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
+    transform: translate(1px, 2px);
+  }
+  8% {
+    text-shadow:
+      0.05em 0 0 rgba(255, 0, 0, 0.75),
+      -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+      0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+    transform: translate(0);
+  }
+  /* Rest of animation is idle - creates ~6 second gap between glitches */
+  10%,
+  100% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+}
+
+.animate-glitch {
+  animation: glitch 6s ease-in-out infinite;
+}
+
+/* Scanline animation for phone screen */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scanline {
+  animation: scanline 3s linear infinite;
+}
+
+/* Pulse glow animation for pedestal */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}

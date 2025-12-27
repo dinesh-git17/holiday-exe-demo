@@ -33,6 +33,15 @@ export function HeroSection({ className }: HeroSectionProps): JSX.Element {
         opacity={0.4}
       />
 
+      {/* Vignette overlay - darkens edges to focus attention on center */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 50% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.8) 100%)",
+        }}
+      />
+
       {/* Content container */}
       <div
         className="relative z-10 flex flex-col items-center gap-6 px-4"
@@ -45,27 +54,44 @@ export function HeroSection({ className }: HeroSectionProps): JSX.Element {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center"
         >
-          <h1 className="text-matrix-green font-mono text-3xl font-bold tracking-tight md:text-5xl">
+          <h1 className="animate-glitch text-matrix-green font-mono text-3xl font-bold tracking-tight md:text-5xl">
             HOLIDAY.EXE
           </h1>
-          <p className="text-matrix-green/60 mt-1 font-mono text-base">
+          <p className="text-status-red mt-2 font-mono text-sm tracking-widest uppercase drop-shadow-[0_0_10px_rgba(255,68,68,0.5)]">
             North Pole Connection
           </p>
         </motion.div>
 
         {/* Phone with splash screen - scaled down for hero visibility */}
-        <PhoneFrame scale={0.75}>
-          <div className="relative h-full w-full">
-            <Image
-              src={ASSETS.SPLASH_SCREEN}
-              alt="North Pole Connection splash screen"
-              fill
-              priority
-              className="object-cover"
-              sizes="210px"
-            />
-          </div>
-        </PhoneFrame>
+        <div className="relative">
+          {/* Pedestal glow - ambient light behind phone */}
+          <div
+            className="animate-pulse-glow pointer-events-none absolute inset-0 -z-10 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0, 255, 65, 0.3) 0%, rgba(0, 255, 65, 0.1) 40%, transparent 70%)",
+              transform: "scale(1.5)",
+            }}
+          />
+          <PhoneFrame scale={0.75}>
+            <div className="relative h-full w-full overflow-hidden">
+              <Image
+                src={ASSETS.SPLASH_SCREEN}
+                alt="North Pole Connection splash screen"
+                fill
+                priority
+                className="object-cover"
+                sizes="210px"
+              />
+              {/* Scanline overlay for "breathing" effect */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                <div className="animate-scanline absolute inset-x-0 h-1/3 bg-gradient-to-b from-transparent via-white/5 to-transparent" />
+              </div>
+              {/* Subtle screen flicker overlay */}
+              <div className="bg-matrix-green/5 pointer-events-none absolute inset-0 mix-blend-overlay" />
+            </div>
+          </PhoneFrame>
+        </div>
 
         {/* Scroll indicator */}
         <motion.div
