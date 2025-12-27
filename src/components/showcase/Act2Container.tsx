@@ -1,16 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { GameExplainer } from "@/components/phases/GameExplainer";
 import { GameplayVideo } from "@/components/phases/GameplayVideo";
 import { MemoryGameVideo } from "@/components/phases/MemoryGameVideo";
 import { RoomSceneVideo } from "@/components/phases/RoomSceneVideo";
+import { MobilePhaseOverview } from "@/components/showcase/MobilePhaseOverview";
+import { MobilePhoneView } from "@/components/showcase/MobilePhoneView";
 import { PhaseCard } from "@/components/showcase/PhaseCard";
 import { PhaseNavigator } from "@/components/showcase/PhaseNavigator";
 import { PhoneFrame } from "@/components/showcase/PhoneFrame";
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 import { DESKTOP_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMobileActState } from "@/hooks/useMobileActState";
 import { usePhaseNavigation } from "@/hooks/usePhaseNavigation";
 import { ACT_2_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -29,6 +32,7 @@ export interface Act2ContainerProps {
  */
 export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  const { view, showPhoneView } = useMobileActState();
   const { currentPhase, totalPhases, hasPrev, hasNext, goToPrev, goToNext } =
     usePhaseNavigation(ACT_2_PHASES.length);
 
@@ -51,6 +55,44 @@ export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
     }
   };
 
+  // Mobile layout
+  if (!isDesktop) {
+    return (
+      <section
+        className={cn("bg-showcase-dark relative min-h-screen", className)}
+      >
+        {/* Subtle gradient transition from Act 1 */}
+        <div className="from-showcase-darker pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b to-transparent" />
+
+        <AnimatePresence mode="wait">
+          {view === "overview" ? (
+            <MobilePhaseOverview
+              key="overview"
+              actNumber={2}
+              actTitle="The Mission"
+              phases={ACT_2_PHASES}
+              onComplete={showPhoneView}
+            />
+          ) : (
+            <MobilePhoneView
+              key="phone"
+              phases={ACT_2_PHASES}
+              currentPhase={currentPhase}
+              totalPhases={totalPhases}
+              onPrev={goToPrev}
+              onNext={goToNext}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+            >
+              {renderPhaseContent()}
+            </MobilePhoneView>
+          )}
+        </AnimatePresence>
+      </section>
+    );
+  }
+
+  // Desktop layout (unchanged)
   return (
     <section
       className={cn(

@@ -1,14 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { CipherGame } from "@/components/phases/CipherGame";
 import { IntelBriefing } from "@/components/phases/IntelBriefing";
 import { ProposalReveal } from "@/components/phases/ProposalReveal";
+import { MobilePhaseOverview } from "@/components/showcase/MobilePhaseOverview";
+import { MobilePhoneView } from "@/components/showcase/MobilePhoneView";
 import { PhaseCard } from "@/components/showcase/PhaseCard";
 import { PhaseNavigator } from "@/components/showcase/PhaseNavigator";
 import { PhoneFrame } from "@/components/showcase/PhoneFrame";
 import { DESKTOP_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMobileActState } from "@/hooks/useMobileActState";
 import { usePhaseNavigation } from "@/hooks/usePhaseNavigation";
 import { ACT_3_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -27,11 +30,13 @@ export interface Act3ContainerProps {
  */
 export function Act3Container({ className }: Act3ContainerProps): JSX.Element {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  const { view, showPhoneView } = useMobileActState();
   const { currentPhase, totalPhases, hasPrev, hasNext, goToPrev, goToNext } =
     usePhaseNavigation(ACT_3_PHASES.length);
 
   const currentPhaseData = ACT_3_PHASES[currentPhase];
   const phoneScale = isDesktop ? PHONE_SCALE.DESKTOP : PHONE_SCALE.MOBILE;
+  const isLastPhase = currentPhase === ACT_3_PHASES.length - 1;
 
   const renderPhaseContent = (): JSX.Element => {
     switch (currentPhase) {
@@ -46,6 +51,44 @@ export function Act3Container({ className }: Act3ContainerProps): JSX.Element {
     }
   };
 
+  // Mobile layout
+  if (!isDesktop) {
+    return (
+      <section
+        className={cn("bg-showcase-darker relative min-h-screen", className)}
+      >
+        {/* Subtle gradient transition from Act 2 */}
+        <div className="from-showcase-dark pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b to-transparent" />
+
+        <AnimatePresence mode="wait">
+          {view === "overview" ? (
+            <MobilePhaseOverview
+              key="overview"
+              actNumber={3}
+              actTitle="The Revelation"
+              phases={ACT_3_PHASES}
+              onComplete={showPhoneView}
+            />
+          ) : (
+            <MobilePhoneView
+              key="phone"
+              phases={ACT_3_PHASES}
+              currentPhase={currentPhase}
+              totalPhases={totalPhases}
+              onPrev={goToPrev}
+              onNext={goToNext}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+            >
+              {renderPhaseContent()}
+            </MobilePhoneView>
+          )}
+        </AnimatePresence>
+      </section>
+    );
+  }
+
+  // Desktop layout (unchanged)
   return (
     <section
       className={cn(
@@ -111,7 +154,7 @@ export function Act3Container({ className }: Act3ContainerProps): JSX.Element {
       </div>
 
       {/* Final message - appears on last phase */}
-      {currentPhase === ACT_3_PHASES.length - 1 && (
+      {isLastPhase && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
