@@ -218,3 +218,13 @@ export const PROPOSAL_CERTIFICATE = {
   QUESTION: "Will you be mine forever and always?",
   FOOTER: "Certificate of Eternal Connection",
 } as const;
+
+// Mobile UX configuration
+export const MOBILE_UX = {
+  /** Duration of the phase overview before transitioning to phone view */
+  OVERVIEW_DURATION_MS: 5000,
+  /** Minimum swipe distance to trigger phase change */
+  SWIPE_THRESHOLD: 50,
+  /** Elastic drag factor for swipe feedback */
+  DRAG_ELASTIC: 0.2,
+} as const;

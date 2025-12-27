@@ -1,16 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { BootSequence } from "@/components/phases/BootSequence";
 import { Countdown } from "@/components/phases/Countdown";
 import { FingerprintScanner } from "@/components/phases/FingerprintScanner";
 import { MissionBriefing } from "@/components/phases/MissionBriefing";
+import { MobilePhaseOverview } from "@/components/showcase/MobilePhaseOverview";
+import { MobilePhoneView } from "@/components/showcase/MobilePhoneView";
 import { PhaseCard } from "@/components/showcase/PhaseCard";
 import { PhaseNavigator } from "@/components/showcase/PhaseNavigator";
 import { PhoneFrame } from "@/components/showcase/PhoneFrame";
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 import { DESKTOP_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMobileActState } from "@/hooks/useMobileActState";
 import { usePhaseNavigation } from "@/hooks/usePhaseNavigation";
 import { ACT_1_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -29,6 +32,7 @@ export interface ActContainerProps {
  */
 export function ActContainer({ className }: ActContainerProps): JSX.Element {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  const { view, showPhoneView } = useMobileActState();
   const { currentPhase, totalPhases, hasPrev, hasNext, goToPrev, goToNext } =
     usePhaseNavigation(ACT_1_PHASES.length);
 
@@ -51,6 +55,41 @@ export function ActContainer({ className }: ActContainerProps): JSX.Element {
     }
   };
 
+  // Mobile layout
+  if (!isDesktop) {
+    return (
+      <section
+        className={cn("bg-showcase-darker relative min-h-screen", className)}
+      >
+        <AnimatePresence mode="wait">
+          {view === "overview" ? (
+            <MobilePhaseOverview
+              key="overview"
+              actNumber={1}
+              actTitle="Authentication"
+              phases={ACT_1_PHASES}
+              onComplete={showPhoneView}
+            />
+          ) : (
+            <MobilePhoneView
+              key="phone"
+              phases={ACT_1_PHASES}
+              currentPhase={currentPhase}
+              totalPhases={totalPhases}
+              onPrev={goToPrev}
+              onNext={goToNext}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+            >
+              {renderPhaseContent()}
+            </MobilePhoneView>
+          )}
+        </AnimatePresence>
+      </section>
+    );
+  }
+
+  // Desktop layout (unchanged)
   return (
     <section
       className={cn(

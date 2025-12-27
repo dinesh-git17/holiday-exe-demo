@@ -216,8 +216,7 @@ export function OutroSection({ className }: OutroSectionProps): JSX.Element {
         >
           <p className="text-terminal-green/40 font-mono text-xs">
             Made with{" "}
-            <Heart className="inline-block h-3 w-3 fill-red-500/50 text-red-500/50" />{" "}
-            in California
+            <Heart className="inline-block h-3 w-3 fill-red-500/50 text-red-500/50" />
           </p>
           <p className="text-terminal-green/30 mt-2 font-mono text-[10px]">
             Christmas 2025
