@@ -18,11 +18,11 @@ export const ASSETS = {
   REVEAL_HUG: "/assets/ui/reveal_hug.png",
 } as const;
 
-// Video paths
+// Video paths (web-optimized versions for smooth playback)
 export const VIDEOS = {
-  PHASE_5_GAME: "/videos/phase_5_game.mp4",
-  PHASE_6_ROOM: "/videos/phase_6_room.mp4",
-  PHASE_6B_MEMORY: "/videos/phase_6b_memory.mp4",
+  PHASE_5_GAME: "/videos/phase_5_game_web.mp4",
+  PHASE_6_ROOM: "/videos/phase_6_room_web.mp4",
+  PHASE_6B_MEMORY: "/videos/phase_6b_memory_web.mp4",
 } as const;
 
 // Phone sizing for different breakpoints
@@ -89,3 +89,25 @@ export const ACT_1_PHASES: readonly Phase[] = [
     description: "Prepare for deployment in 3... 2... 1...",
   },
 ] as const;
+
+// Act 2: The Mission - Game phase definitions
+export const ACT_2_PHASES: readonly Phase[] = [
+  {
+    id: "game-intro",
+    title: "Mission Parameters",
+    description:
+      "Your objective: Collect hearts while avoiding glitch obstacles. Each heart brings you closer to your target.",
+  },
+  {
+    id: "gameplay",
+    title: "Active Mission",
+    description:
+      "Watch the operative navigate through the field, collecting tokens and evading hazards.",
+  },
+] as const;
+
+// Game configuration
+export const GAME_CONFIG = {
+  HEART_ICON: "/assets/game/token_heart.png",
+  GLITCH_ICON: "/assets/game/obstacle_glitch.png",
+} as const;
