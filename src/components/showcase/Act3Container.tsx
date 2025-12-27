@@ -2,64 +2,59 @@
 
 import { motion } from "framer-motion";
 
-import { GameExplainer } from "@/components/phases/GameExplainer";
-import { GameplayVideo } from "@/components/phases/GameplayVideo";
-import { MemoryGameVideo } from "@/components/phases/MemoryGameVideo";
-import { RoomSceneVideo } from "@/components/phases/RoomSceneVideo";
+import { CipherGame } from "@/components/phases/CipherGame";
+import { IntelBriefing } from "@/components/phases/IntelBriefing";
+import { ProposalReveal } from "@/components/phases/ProposalReveal";
 import { PhaseCard } from "@/components/showcase/PhaseCard";
 import { PhaseNavigator } from "@/components/showcase/PhaseNavigator";
 import { PhoneFrame } from "@/components/showcase/PhoneFrame";
-import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 import { DESKTOP_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
 import { usePhaseNavigation } from "@/hooks/usePhaseNavigation";
-import { ACT_2_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
+import { ACT_3_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import type { JSX } from "react";
 
-export interface Act2ContainerProps {
+export interface Act3ContainerProps {
   /** Additional CSS classes */
   className?: string;
 }
 
 /**
- * Act2Container - Scroll section for Act 2: The Mission
+ * Act3Container - Scroll section for Act 3: The Revelation
  * Two-column layout with phone on left, phase info on right
- * Features game mechanics explainer and gameplay video
+ * Features decrypt animation, cipher game, and proposal reveal
  */
-export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
+export function Act3Container({ className }: Act3ContainerProps): JSX.Element {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const { currentPhase, totalPhases, hasPrev, hasNext, goToPrev, goToNext } =
-    usePhaseNavigation(ACT_2_PHASES.length);
+    usePhaseNavigation(ACT_3_PHASES.length);
 
-  const currentPhaseData = ACT_2_PHASES[currentPhase];
+  const currentPhaseData = ACT_3_PHASES[currentPhase];
   const phoneScale = isDesktop ? PHONE_SCALE.DESKTOP : PHONE_SCALE.MOBILE;
-  const isLastPhase = currentPhase === ACT_2_PHASES.length - 1;
 
   const renderPhaseContent = (): JSX.Element => {
     switch (currentPhase) {
       case 0:
-        return <GameExplainer />;
+        return <IntelBriefing />;
       case 1:
-        return <GameplayVideo />;
+        return <CipherGame />;
       case 2:
-        return <RoomSceneVideo />;
-      case 3:
-        return <MemoryGameVideo />;
+        return <ProposalReveal />;
       default:
-        return <GameExplainer />;
+        return <IntelBriefing />;
     }
   };
 
   return (
     <section
       className={cn(
-        "bg-showcase-dark relative min-h-screen px-4 py-8 md:px-8 md:py-12 lg:px-16",
+        "bg-showcase-darker relative min-h-screen px-4 py-8 md:px-8 md:py-12 lg:px-16",
         className
       )}
     >
-      {/* Subtle gradient transition from Act 1 */}
-      <div className="from-showcase-darker pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b to-transparent" />
+      {/* Subtle gradient transition from Act 2 */}
+      <div className="from-showcase-dark pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b to-transparent" />
 
       {/* Main content - two column layout */}
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 pt-8 md:flex-row md:items-center md:justify-center md:gap-12 lg:gap-20">
@@ -88,10 +83,10 @@ export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
           {/* Section header */}
           <div className="text-center md:text-left">
             <span className="text-matrix-green/60 mb-1 block font-mono text-sm tracking-widest uppercase">
-              Act 2
+              Act 3
             </span>
             <h2 className="text-matrix-green font-mono text-2xl font-bold">
-              The Mission
+              The Revelation
             </h2>
           </div>
 
@@ -115,8 +110,23 @@ export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
         </motion.div>
       </div>
 
-      {/* Scroll indicator - appears on last phase */}
-      <ScrollIndicator visible={isLastPhase} label="SCROLL TO ACT 3" />
+      {/* Final message - appears on last phase */}
+      {currentPhase === ACT_3_PHASES.length - 1 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          className="mt-12 text-center"
+        >
+          <motion.p
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="text-romance-gold/60 font-mono text-sm tracking-widest"
+          >
+            ♥ THE END ♥
+          </motion.p>
+        </motion.div>
+      )}
     </section>
   );
 }

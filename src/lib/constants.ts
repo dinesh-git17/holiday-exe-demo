@@ -104,10 +104,117 @@ export const ACT_2_PHASES: readonly Phase[] = [
     description:
       "Watch the operative navigate through the field, collecting tokens and evading hazards.",
   },
+  {
+    id: "room-scene",
+    title: "The Reunion",
+    description:
+      "Mission complete. Watch as the operative reaches the final destination for a cinematic reunion.",
+  },
+  {
+    id: "memory-game",
+    title: "Memory Protocol",
+    description:
+      "A cognitive challenge awaits. Match the patterns to unlock the next sequence.",
+  },
 ] as const;
 
 // Game configuration
 export const GAME_CONFIG = {
   HEART_ICON: "/assets/game/token_heart.png",
   GLITCH_ICON: "/assets/game/obstacle_glitch.png",
+} as const;
+
+// Act 3: The Revelation - Finale phase definitions
+export const ACT_3_PHASES: readonly Phase[] = [
+  {
+    id: "intel-briefing",
+    title: "Intel Briefing",
+    description:
+      "Classified data incoming. Watch as encrypted transmissions reveal critical intelligence.",
+  },
+  {
+    id: "cipher-game",
+    title: "Cipher Protocol",
+    description:
+      "Decode the hidden message. Each letter brings you closer to the truth.",
+  },
+  {
+    id: "proposal-reveal",
+    title: "The Revelation",
+    description:
+      "Mission complete. The final message has been decrypted. Certificate of authenticity enclosed.",
+  },
+] as const;
+
+// Intel briefing configuration (matching christmas-gift)
+export const INTEL_BRIEFING = {
+  HEADER: "CRITICAL INTELLIGENCE GATHERED",
+  BODY: `INTERCEPT REPORT: A high-density encrypted signal has been detected from a remote timeline.
+
+Our cryptography agents have worked tirelessly to decrypt this payload. It contains vital data regarding Subject: Dinn.
+
+WARNING: Content exhibits extreme emotional resonance. Proceed with urgency.`,
+} as const;
+
+export const INTEL_BOOT_SEQUENCE = [
+  "booting connection...",
+  "syncing hearts...",
+  "latency: irrelevant",
+  "status: locked on you",
+] as const;
+
+export const INTEL_BOOT_TIMING = {
+  DECRYPT_DURATION_MS: 2500,
+  FINAL_HOLD_MS: 1500,
+  DECRYPT_INTERVAL_MS: 50,
+} as const;
+
+// Cipher game configuration (matching christmas-gift)
+export interface CipherLevel {
+  word: string;
+  hints: readonly string[];
+}
+
+export const CIPHER_LEVELS: readonly CipherLevel[] = [
+  {
+    word: "YOURS",
+    hints: ["Something I am...", "Starts with Y, ends with S."],
+  },
+  {
+    word: "LOVER",
+    hints: ["What you are to me.", "Starts with L, ends with R."],
+  },
+  {
+    word: "ADORE",
+    hints: ["What I do endlessly.", "Starts with A, ends with E."],
+  },
+] as const;
+
+export const CIPHER_CONFIG = {
+  WORD_LENGTH: 5,
+  MAX_GUESSES: 4,
+  TILE_FLIP_DELAY_MS: 100,
+  TILE_FLIP_DURATION_MS: 400,
+} as const;
+
+export const CIPHER_SUCCESS_MESSAGES = [
+  "You know me so well...",
+  "My heart is yours.",
+  "Forever and always.",
+] as const;
+
+// Proposal configuration (matching christmas-gift)
+export const PROPOSAL_APPRECIATION = {
+  HEADER: "Agent Carolina,",
+  LINES: [
+    "You have navigated every glitch, bypassed every firewall, and decrypted the truth.",
+    "This mission was never just about code. It was about finding the one person who makes the system worth saving.",
+    "The target is secured. He is waiting for you.",
+  ],
+} as const;
+
+export const PROPOSAL_CERTIFICATE = {
+  HEADER: "MISSION ACCOMPLISHED",
+  QUESTION: "Will you be mine forever and always?",
+  FOOTER: "Certificate of Eternal Connection",
 } as const;
