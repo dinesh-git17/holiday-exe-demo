@@ -2,64 +2,61 @@
 
 import { motion } from "framer-motion";
 
-import { BootSequence } from "@/components/phases/BootSequence";
-import { Countdown } from "@/components/phases/Countdown";
-import { FingerprintScanner } from "@/components/phases/FingerprintScanner";
-import { MissionBriefing } from "@/components/phases/MissionBriefing";
+import { GameExplainer } from "@/components/phases/GameExplainer";
+import { GameplayVideo } from "@/components/phases/GameplayVideo";
 import { PhaseCard } from "@/components/showcase/PhaseCard";
 import { PhaseNavigator } from "@/components/showcase/PhaseNavigator";
 import { PhoneFrame } from "@/components/showcase/PhoneFrame";
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 import { DESKTOP_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
 import { usePhaseNavigation } from "@/hooks/usePhaseNavigation";
-import { ACT_1_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
+import { ACT_2_PHASES, PHONE_SCALE, Z_INDEX } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import type { JSX } from "react";
 
-export interface ActContainerProps {
+export interface Act2ContainerProps {
   /** Additional CSS classes */
   className?: string;
 }
 
 /**
- * ActContainer - Scroll section for Act 1: Authentication
+ * Act2Container - Scroll section for Act 2: The Mission
  * Two-column layout with phone on left, phase info on right
- * Manual navigation via arrows
+ * Features game mechanics explainer and gameplay video
  */
-export function ActContainer({ className }: ActContainerProps): JSX.Element {
+export function Act2Container({ className }: Act2ContainerProps): JSX.Element {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const { currentPhase, totalPhases, hasPrev, hasNext, goToPrev, goToNext } =
-    usePhaseNavigation(ACT_1_PHASES.length);
+    usePhaseNavigation(ACT_2_PHASES.length);
 
-  const currentPhaseData = ACT_1_PHASES[currentPhase];
+  const currentPhaseData = ACT_2_PHASES[currentPhase];
   const phoneScale = isDesktop ? PHONE_SCALE.DESKTOP : PHONE_SCALE.MOBILE;
-  const isLastPhase = currentPhase === ACT_1_PHASES.length - 1;
+  const isLastPhase = currentPhase === ACT_2_PHASES.length - 1;
 
   const renderPhaseContent = (): JSX.Element => {
     switch (currentPhase) {
       case 0:
-        return <BootSequence />;
+        return <GameExplainer />;
       case 1:
-        return <FingerprintScanner />;
-      case 2:
-        return <MissionBriefing />;
-      case 3:
-        return <Countdown />;
+        return <GameplayVideo />;
       default:
-        return <BootSequence />;
+        return <GameExplainer />;
     }
   };
 
   return (
     <section
       className={cn(
-        "bg-showcase-darker relative min-h-screen px-4 py-8 md:px-8 md:py-12 lg:px-16",
+        "bg-showcase-dark relative min-h-screen px-4 py-8 md:px-8 md:py-12 lg:px-16",
         className
       )}
     >
+      {/* Subtle gradient transition from Act 1 */}
+      <div className="from-showcase-darker pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b to-transparent" />
+
       {/* Main content - two column layout */}
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 md:flex-row md:items-center md:justify-center md:gap-12 lg:gap-20">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 pt-8 md:flex-row md:items-center md:justify-center md:gap-12 lg:gap-20">
         {/* Left column - Phone */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -85,10 +82,10 @@ export function ActContainer({ className }: ActContainerProps): JSX.Element {
           {/* Section header */}
           <div className="text-center md:text-left">
             <span className="text-matrix-green/60 mb-1 block font-mono text-sm tracking-widest uppercase">
-              Act 1
+              Act 2
             </span>
             <h2 className="text-matrix-green font-mono text-2xl font-bold">
-              Authentication
+              The Mission
             </h2>
           </div>
 
@@ -113,7 +110,7 @@ export function ActContainer({ className }: ActContainerProps): JSX.Element {
       </div>
 
       {/* Scroll indicator - appears on last phase */}
-      <ScrollIndicator visible={isLastPhase} label="SCROLL TO ACT 2" />
+      <ScrollIndicator visible={isLastPhase} label="SCROLL TO ACT 3" />
     </section>
   );
 }
